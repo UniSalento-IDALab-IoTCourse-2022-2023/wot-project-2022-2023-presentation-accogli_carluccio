@@ -1,176 +1,562 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Sample Presentation Repository by UniSalento-IDALab-IoTCourse-2022-2023</title>
-    <link rel="stylesheet" href="css/style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSGSystem</title>
+    
+    
+    <script>
+        // Funzione per aggiornare il margin-top, il font-size, l'altezza e l'opacità in base allo scroll
+        function updateElementsOnScroll() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-  </head>
-  <body>
+            if (window.innerWidth <= 800) {
+                // Lascia che il CSS gestisca il comportamento per schermi piccoli
+                return;
+        }
 
-      <header>
-        <h1>Sample Presentation Repository</h1>
-        <p></p>
-      </header>
+            // Configurazione del margin-top dell'immagine
+            const maxMargin = -128; // Margin-top massimo in pixel
+            const maxScroll = 200; // Altezza di scorrimento per raggiungere il maxMargin
+            let newMargin = 0;
 
-      <<div id="banner">
-        <span id="logo"></span>
+            // Calcola il nuovo valore del margin-top
+            if (scrollTop > 0 && scrollTop < maxScroll) {
+                newMargin = (scrollTop / maxScroll) * maxMargin;
+            } else if (scrollTop >= maxScroll) {
+                newMargin = maxMargin;
+            }
 
-        <a href="" class="button fork"><strong>View On GitHub</strong></a>
+            // Imposta il nuovo margin-top all'immagine
+            const img = document.getElementById('header-image');
+            img.style.marginTop = `${newMargin}px`;
 
-      </div><!-- end banner -->
+            // Configurazione del font-size dell'h1
+            const maxFontSizeH1 = 64; // Font-size iniziale in pixel
+            const minFontSizeH1 = 44; // Font-size finale in pixel
+            const fontSizeRangeH1 = maxFontSizeH1 - minFontSizeH1;
+            let newFontSizeH1 = maxFontSizeH1;
 
-    <div class="wrapper">
-      <nav>
-        <ul>
-          <li class="tag-h2 active">
-            <a href="#nome-del-progetto-e-repository-github">Nome del progetto e repository github</a>
-          </li>
-          <li class="tag-h2">
-            <a href="#membri-del-team">Membri del team</a>
-          </li>
-          <li class="tag-h2">
-            <a href="#presentazione-concept">Presentazione del concept</a>
-          </li>
-          <li class="tag-h2">
-            <a href="#funzionalita-e-architettura">Funzionalità e architettura</a>
-          </li>
-          <li class="tag-h2">
-            <a href="#istruzioni">Istruzioni per far funzionare il prototipo</a>
-          </li>
+            // Calcola il nuovo valore del font-size per l'h1
+            if (scrollTop > 0 && scrollTop < maxScroll) {
+                newFontSizeH1 = maxFontSizeH1 - ((scrollTop / maxScroll) * fontSizeRangeH1);
+            } else if (scrollTop >= maxScroll) {
+                newFontSizeH1 = minFontSizeH1;
+            }
+
+            // Imposta il nuovo font-size all'h1
+            const header = document.getElementById('dynamic-h1');
+            header.style.fontSize = `${newFontSizeH1}px`;
+
+            // Configurazione del font-size dell'h3
+            const maxFontSizeH3 = 24; // Font-size iniziale per h3
+            const minFontSizeH3 = 16; // Font-size finale per h3
+            const fontSizeRangeH3 = maxFontSizeH3 - minFontSizeH3;
+            let newFontSizeH3 = maxFontSizeH3;
+
+            // Calcola il nuovo valore del font-size per l'h3
+            if (scrollTop > 0 && scrollTop < maxScroll) {
+                newFontSizeH3 = maxFontSizeH3 - ((scrollTop / maxScroll) * fontSizeRangeH3);
+            } else if (scrollTop >= maxScroll) {
+                newFontSizeH3 = minFontSizeH3;
+            }
+
+            // Imposta il nuovo font-size all'h3
+            const subheader = document.getElementById('dynamic-h3');
+            subheader.style.fontSize = `${newFontSizeH3}px`;
+
+            // Configurazione dell'altezza dell'immagine
+            const minHeight = 500; // Altezza iniziale in pixel
+            const maxHeight = 560; // Altezza finale in pixel
+            const heightRange = maxHeight - minHeight;
+            let newHeight = minHeight;
+
+            // Calcola il nuovo valore dell'altezza per l'immagine
+            if (scrollTop > 0 && scrollTop < maxScroll) {
+                newHeight = minHeight + ((scrollTop / maxScroll) * heightRange);
+            } else if (scrollTop >= maxScroll) {
+                newHeight = maxHeight;
+            }
+
+            // Imposta la nuova altezza all'immagine
+            img.style.height = `${newHeight}px`;
+
+            // Configurazione dell'opacità per h1 e h3
+            const minOpacity = 0; // Opacità finale (trasparente)
+            const maxOpacity = 1; // Opacità iniziale (completamente visibile)
+            let newOpacity = maxOpacity;
+
+            // Calcola il nuovo valore dell'opacità
+            if (scrollTop > 0 && scrollTop < maxScroll/2) {
+                newOpacity = maxOpacity - ((scrollTop / (maxScroll/2)) * (maxOpacity - minOpacity));
+            } else if (scrollTop >= maxScroll/2) {
+                newOpacity = minOpacity;
+            }
+
+            // Imposta la nuova opacità a h1 e h3
+            header.style.opacity = newOpacity;
+            subheader.style.opacity = newOpacity;
+        }
+
+        // Ascolta l'evento di scorrimento
+        window.addEventListener('scroll', updateElementsOnScroll);
+        
+        
+        
+        // Funzione di debounce
+		function debounce(func, wait) {
+    		let timeout;
+    		return function(...args) {
+    		    clearTimeout(timeout);
+    		    timeout = setTimeout(() => func.apply(this, args), wait);
+    		};
+		}
+
+		// Applica debounce alla funzione di aggiornamento
+		const debouncedUpdateElementsOnScroll = debounce(updateElementsOnScroll, 20);
+
+		// Ascolta l'evento di scorrimento con debounce
+		window.addEventListener('scroll', debouncedUpdateElementsOnScroll);
+    </script>
+    
+    
+    
+    
+    <style>
+        body {
+            font-family: Inter, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            /*background-color: #f4f4f4;*/
+        }
+        header {
+            background: #eee2d4;
+            /*color: #fff;
+             padding: 10px 0; */
+            text-align: center;
+            max-width: 100%;
+        }
+        button a {
+            color: inherit; /* Usa il colore ereditato dal pulsante */
+            text-decoration: none; /* Rimuove la sottolineatura */
+        }
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+        }
+        img {
+        	max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            background: #e2e2e2;
+            margin: 5px 0;
+            padding: 10px;
+        }
+        
+        #header-image {
+        	height: 500px;
+        	/*width: 100px;*/
+        }
+        
+        h1 {
+        	font-size: 64px;
+        	line-height: 0;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            max-width: 100%;
+            padding: 0px 10px 16px 10px;
+        }
+        h3 {
+        	font-weight: 400;
+        	font-size: 24px;
+        	line-height: 0;
+        }
+        h2 {
+        	line-height: 0;
+        	padding-bottom: 8px;
+        }
+        
+        p {
+        	text-align: justify;
+		}
+		
+		#intro-image {
+			width: 600px;
+		}
+		#docker-image {
+			width: 160px;
+		}
+		#raspberry-image {
+			width: 200px;
+		}
+		#groundworker-image {
+			width: 140px;
+		}
+		#driver-image {
+			width: 170px;
+		}
+		#dashboard-image {
+			width: 300px;
+		}
+		
+		.content-section {
+			padding-top: 16px; padding-bottom: 16px; padding-left: 32px; padding-right: 32px; margin: 8px; border: 1px solid black; border-radius: 32px;
+			margin-bottom: 24px; margin-top: 24px;
+			border: 1px solid #ccc;
+			/*background: #eee2d4;
+			//box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);*/
+		}
+		
+		nav {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+  			display: flex;
+  			justify-content: space-between;
+  			align-items: center;
+  			flex-wrap: wrap;
+
+  			width: 100%;
+
+  			padding-top: 8px;
+  			padding-bottom: 8px;
+		}
+		button {
+  			padding-left: 48px;
+  			padding-right: 48px;
+  			border: #0000;
+  			background: #0000;
+  			cursor: pointer;
+
+
+  			font-size: 20px;
+		}
+
+		/*button:hover {
+  			color: $button_hover_color;
+		}*/
+		.separator {
+  			width: 1px;
+  			height: 16px;
+  			background: #0009;
+  			margin-top: 16px;
+  			margin-bottom: 16px;
+		}
+
+		#logo-img {
+			width: 80px;
+			/*height: 100px;*/
+		}
+		#github-logo-img {
+			width: 64px;
+			/*height: 100px;*/
+		}
+		#github-mark-img {
+			width: 24px;
+			/*height: 100px;*/
+		}
+		
+		#header-image {
+            /*display: block;
+            //margin: 0 0 0 0 ;*/
+            transition: margin-top 0.2s ease-out;
+        }
+        h1 {
+        	transition: font-size 0.2s ease-out;
+        }
+        h3 {
+        	transition: font-size 0.2s ease-out;
+        }
+        
+        #microservices-image {
+        	width: 44px;
+        }
+        #android-image {
+        	width: 52px;
+        }
+        
+        
+        .content-section:hover {
+  			/*transform: translateY(-2px);*/
+  			border: 1px solid #888;
+  			transition: border 0.2s ease;
+    
+		}
+
+        .footer {
+            text-align: center; 
+            padding: 10px;
+        }
+
+
+        .navbar-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: black;
+            transition: width 0.3s ease;
+        }
+
+        .navbar-link {
+            text-decoration: none;
+            color: black;
+            position: relative;
+            display: inline-block; /* Ensure the link is an inline block */
+            padding: 5px 0;
+        }
+
+        .navbar-link:hover::after {
+            width: 100%;
+        }
+
+        .github-button:hover {
+            background-color: #f0f0f0; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); 
+            transform: scale(0.95); 
+        }
+
+        .anchor {
+            padding-top: 80px;
+        }
+
+        .nostyle-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .header_icon-bar { display: block; float:right; padding: 20px; display: none;}
+        .header_icon-bar span { display: block; height: 3px; width:30px; background: #fff; margin-bottom: 5px; }
+
+        .header_menu {
+            display: none;
+        }
+
+
+        @media only screen and (max-width: 800px) {
+            h1, h2, h3 {
+                line-height: 1.2; /* Aumenta il line-height per evitare sovrapposizioni */
+                max-width: 100%; /* Permetti al testo di andare a capo */
+                overflow-wrap: break-word;
+                word-break: break-word;
+            }
+
+            .header { position:fixed; z-index: 100; width:100%;}
+            .header_icon-bar {display: block;}
+            .header_menu {width: 100%; height:0px; overflow: hidden; display:block; background-color: #e8d7c4; }
+            .header_menu_item {display: block; background-color: #e8d7c4;}
+            .header_menu_item a {
+                text-decoration: none;
+                color: black; 
+            }
+        
+           
+            .is-open { 
+                height: 180px; 
+                overflow:auto;
+                background-color: dcc4a7;
+                text-align: center;
+                margin-top: 0;
+            }
+
+            .animate{
+                transition: all 0.3s ease-out;
+            }
+
+            .navbar-link, .github-button {
+                display: none;
+            }
+
+
+            #logo-img {
+                padding-left: 14px !important;
+            }
+            nav {
+                height: 80px;
+            }
+
+            nav .github-button {
+                display: none !important;
+            }
+
+            .content-section {
+                display: flex;
+                flex-wrap: wrap !important;
+		    }
+            header {
+                padding-top: 100px !important;
+            }
+            
+            
+            
+        }
+
+        
+        
+        
+    </style>
+</head>
+<body>
+
+	<nav style="background: #eee2d4;">
+<!--   		<button style="display: flex; align-items: center; "> -->
+    		<img style="padding-left: 48px; padding-right: 48px;" id="logo-img" src="./images/logo.png">
+<!--   		</button> -->
+
+  		<button><a class="navbar-link" href="#ARCHITECTURE-SECTION">Architecture</a></button>
+
+  		<button><a class="navbar-link" href="#DESCRIPTION-SECTION">Description</a></button>
+
+  		<button class="github-button" style="display: flex; align-items: center; gap: 8px; margin: 0px; margin-left: 16px; margin-right: 16px; padding: 16px; background: white; border-radius: 32px;">
+  			<a href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023/wot-project-2022-2023-presentation-accogli_carluccio.git">
+  				<img id="github-mark-img" src="./images/github-mark.png">
+  		  		<img id="github-logo-img" src="./images/github-logo.png">
+  		  	</a>
+  		</button>
+
+        <a href="" class="header_icon-bar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </a>
+
+        <ul class="header_menu animate">
+            <li class="header_menu_item"><a href="#ARCHITECTURE-SECTION">Architecture</a></li>
+            <li class="header_menu_item"><a href="#DESCRIPTION-SECTION">Description</a></li>
+            <li class="header_menu_item"><a href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023/wot-project-2022-2023-presentation-accogli_carluccio.git">Github</a></li>
         </ul>
-      </nav>
-      <section style="height: auto;">
-        <div class="subsection">
-          <span class="anchor" id="nome-del-progetto-e-repository-github"></span>
-          <h2 >Nome del progetto e repository github</h2>
+	</nav>
 
-          <p>Nome del progetto: BlaBlaBla</p>
-          <p>Repository del sito di presentazione progetto: <a href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023/SamplePresentationRepository">https://github.com/UniSalento-IDALab-IoTCourse-2022-2023/SamplePresentationRepository</a></p>
-          <p>Tutti i Repository del prototipo (codice):
-            <ul>
-              <li><a href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023/SamplePresentationRepository">Parte 1</a></li>
-              <li><a href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023/SamplePresentationRepository">Parte 2</a></li>
-              <li><a href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023/SamplePresentationRepository">Parte 3</a></li>
-            </ul>
-          </p>
+    <header style="padding-top: 180px;">
+    
+    	
+    
+    
+        <h1 id="dynamic-h1">Improving workers safety</h1>
+        <h3 id="dynamic-h3">An IoT project for the course at University of Salento</h3>
+        <img  id="header-image" src="./images/F_1.png" alt="Application screen" style="margin-bottom: -8px;">
+       
+    </header>
+    <main>
+        <section class="anchor" id="ARCHITECTURE-SECTION">
+            <p>The project, formally called ‘Ground Person Location and Identification System’, aims to develop a Proximity Warning System (PWS) using Bluetooth Low energy (BLE) technology in work contexts where mobile machinery and workers on the ground are present.  The system is capable of detecting proximity situations between these in real time, notifying the subjects concerned in the event of danger. In addition, it supports other types of alarms such as general communications and signalling of drivers away from machinery. 
+Furthermore, the system offers functionalities for the management of site resources, allows the definition of a daily configuration of active machines with their authorised drivers, and guarantees secure access to the system. Thanks to the software and hardware solutions adopted, it is easily extendable and adaptable to specific needs. </p>
+        	<div style="display:flex; align-items: center; justify-content: center;">
+        		<img id="intro-image" src="./images/F_2.png" alt="Immagine di esempio">
+        	</div>
+        </section>
+        
+        <section id="DESCRIPTION-SECTION" class="anchor">
+            <section  class="content-section">
+                <a class="nostyle-link" href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023/wot-project-2022-2023-central_server-accogli_carluccio">
+                    <div style="display:flex; gap: 28px;">
+                        <div style="display:flex; flex-direction: column; align-items: top;">
 
+                            <div style="display: flex; align-items: center; gap: 16px;">
+                                <h2>Local Server with Microservices</h2>
+                                <img id="microservices-image" src="./images/MICROSERVICES_ICON.png">
+                            </div>
+                            <p>The core of this architecture that contains a backend and a message broker to manage MQTT communications. The server implements: authentication of actors, management of site resources and daily configuration and historicisation of generated alarms.<p>
+                        </div>
+                    
+                        
+                        <img id="docker-image" src="./images/F_3.png" alt="Docker">
+                        
+                    </div>
+                </a>
+            </section>
+            
+            <section class="content-section">
+                <a class="nostyle-link" href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023/wot-project-2022-2023-controller_board-accogli_carluccio">
+                    <div style="display:flex; gap: 28px;">
+                    
+                        <img id="raspberry-image" src="./images/F_4.png" alt="Raspberry board">
+                    
+                        <div style="display:flex; flex-direction: column; align-items: top;">
 
-        </div>
-        <div class="subsection">
-          <span class="anchor" id="membri-del-team"></span>
-          <h2>Membri del team</h2>
+                            <h2>Machinery Controller Board</h2>
+                            <p>An electronic board located on board the machinery, which acts as a central hub. It plays an active role in alarm processing, as it converts and forwards messages received on the MQTT topic of the machinery, notifying the smartphone of the BLE-connected driver. 
+        Additional devices can be connected.<p>
+                        </div>
+                    
+                        
 
-          <table>
-            <thead>
-              <tr>
-                <th style="text-align: center">Matricola</th>
-                <th style="text-align: center">Cognome</th>
-                <th style="text-align: center">Nome</th>
-                <th style="text-align: center">E-mail</th>
-                <th style="text-align: center">GitHub</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="text-align: center">123456</td>
-                <td style="text-align: center">Abc</td>
-                <td style="text-align: center">Jkl</td>
-                <td style="text-align: center">abc.jkl@studenti.polito.it</td>
-                <td style="text-align: center">abc.jkl</td>
-              </tr>
-              <tr>
-                <td style="text-align: center">654321</td>
-                <td style="text-align: center">Def</td>
-                <td style="text-align: center">Mno</td>
-                <td style="text-align: center">def.mno@gmail.com</td>
-                <td style="text-align: center">def_mno</td>
-              </tr>
-              <tr>
-                <td style="text-align: center">321456</td>
-                <td style="text-align: center">Ghi</td>
-                <td style="text-align: center">Pqr</td>
-                <td style="text-align: center">ghi.pqr@libero.it</td>
-                <td style="text-align: center">ghipqr</td>
-              </tr>
-            </tbody>
-          </table>
-
-
-        </div>
-        <div class="subsection">
-          <span class="anchor" id="presentazione-concept"></span>
-          <h2>Presentazione del progetto</h2>
-
-          <p>
-            Inserire una breve descrizione del vostro progetto: problema a cui risponde,
-            principali caratteristiche, ecc
-          </p>
-
-
-        </div>
-        <div class="subsection">
-          <span class="anchor" id="funzionalita-e-architettura"></span>
-          <h2>Funzionalità e architettura</h2>
-
-          <span class="anchor" id="funzionalita-complete-del-social-network"></span>
-          <h3>Funzionalità complete del progetto</h3>
-
-          <p>Inserire una tabella in cui sono elencate (ad alto livello) TUTTI i requisiti del vostro progetto</p>
-
-          <table>
-            <thead>
-              <tr>
-                <th style="text-align: center">Funzionalità complete</th>
-                <th style="text-align: center">Descrizione</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="text-align: center">Nome della funzionalità A</td>
-                <td style="text-align: center">Breve descrizione della funzionalità A</td>
-              </tr>
-              <tr>
-                <td style="text-align: center">Nome della funzionalità B</td>
-                <td style="text-align: center">Breve descrizione della funzionalità B</td>
-              </tr>
-              <tr>
-                <td style="text-align: center">...</td>
-                <td style="text-align: center">...</td>
-              </tr>
-            </tbody>
-          </table>
+                    </div>
+                </a>
+            </section>
+            
+            <section class="content-section">
+                <a class="nostyle-link" href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023/wot-project-2022-2023-app_android-accogli_carluccio">
+                    <div style="display:flex; gap: 16px;">
+                        <img id="groundworker-image" src="./images/F_5_1.png" alt="Screen app Groundworker">
+                        
+                        <div style="display:flex; flex-direction: column; align-items: top;">
 
 
-          <span class="anchor" id="architettura-dellinformazione"></span>
-          <h3>Architettura del sistema</h3>
+                            <div style="display:flex; flex-direction: column; align-items: center;">
+                                <img id="android-image" src="./images/ANDROID-ICON.png">
+                                <h2>App for Workers</h2>
+                            </div>
+                            <p>For ground workers, the app scans surrounding beacons, calculates the distance and generates alarms.
+        For driving operators, there is a connection interface with the control unit and a dashboard for alarms. It  also notifying excessive distances from the machine. <p>
+                        </div>
+                    
+                        
+                        <img id="driver-image" src="./images/F_5_2.png" alt="Screen app Driver">
+                    </div>
+                </a>
+            </section>
+            
+            <section class="content-section">
+                <a class="nostyle-link" href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023/wot-project-2022-2023-app_angular-accogli_carluccio">
+                    <div style="display:flex; gap: 28px;">
+                        <div style="display:flex; flex-direction: column; align-items: top;">
 
-          <p>Inserire i diagrammi in grado di descrivere adeguatamente la struttura del vostro progetto e eventualmente i link ai repository in cui le varie componenti sono implementate</p>
+                            <h2>Intuitive Dashboard</h2>
+                            <p>A web application provides the security manager with a real-time view of the alarms generated via a dashboard and screens for the configuration and management of the entire site. <p>
+                        </div>
+                    
+                        <img id="dashboard-image" src="./images/F_6.png" alt="Dashboard screen">
+                    </div>
+                </a>
+            </section>
+        </section>
+        
+        
+        
+        
+        
+        
+    </main>
+    <footer>
+        <p class="footer"> Project maintained by <a href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023">UniSalento-IDALab-IoTCourse-2022-2023</a>
+            <br>— Hosted on GitHub Pages —</br></p>
+        <p class="footer" >2024 - Accogli Carmine, Carluccio Fabio</p>
+    </footer>
 
 
-
-        </div>
-
-        <div class="subsection">
-          <span class="anchor" id="istruzioni"></span>
-          <h2>Istruzioni per far funzionare il prototipo</h2>
-
-          <p>Inserire tutti i passi per far funzionare il prototipo</p>
-
-        </div>
-      </section>
-      <footer>
-
-          <p>Project maintained by <a href="https://github.com/UniSalento-IDALab-IoTCourse-2022-2023">UniSalento-IDALab-IoTCourse-2022-2023</a></p>
-
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
-      </footer>
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-
-
-
-  </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+        $(".header_icon-bar").click(function(e){
+            $(".header_menu").toggleClass('is-open');
+            e.preventDefault();
+        });
+        });
+    </script>
+</body>
 </html>
